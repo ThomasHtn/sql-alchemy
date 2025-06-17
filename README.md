@@ -62,3 +62,14 @@ python3 run.py
 ```bash
 pytest pytest test_api.py
 ```
+
+### Add database migration
+```bash
+alembic revision --autogenerate -m "mon nom de migration"
+```
+
+Apply migration
+```bash
+alembic upgrade head
+```
+
