@@ -7,3 +7,9 @@ pytest
 pandas
 missingno
 alembic
+scikit-learn
+joblib
+loguru
+matplotlib
+mlflow
+tensorflow-cpu
