@@ -3,6 +3,9 @@ from typing import Optional
 from pydantic import BaseModel
 
 
+# =============================
+# CREATE: Create client schema
+# =============================
 class ClientCreate(BaseModel):
     lastname: str
     firstname: str
@@ -27,6 +30,9 @@ class ClientCreate(BaseModel):
     quotient_caf: Optional[float] = None
 
 
+# =============================
+# UPDATE: update client schema
+# =============================
 class ClientUpdate(BaseModel):
     firstname: Optional[str] = None
     lastname: Optional[str] = None
@@ -51,4 +57,4 @@ class ClientUpdate(BaseModel):
     quotient_caf: Optional[float] = None
 
     class Config:
-        from_attributes = True  # Pydantic v2
+        from_attributes = True

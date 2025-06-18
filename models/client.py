@@ -2,7 +2,9 @@ from sqlalchemy import Boolean, Column, Float, Integer, String
 
 from database import Base
 
-
+# =============================
+# TABLE: client_profiles
+# =============================
 class ClientProfile(Base):
     __tablename__ = "client_profiles"
 
