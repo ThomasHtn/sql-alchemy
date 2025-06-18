@@ -1,5 +1,7 @@
-from pydantic import BaseModel
 from typing import Optional
+
+from pydantic import BaseModel
+
 
 class ClientCreate(BaseModel):
     lastname: str
@@ -20,6 +22,10 @@ class ClientCreate(BaseModel):
     credit_score: int
     monthly_rent: float
     loan_amount_requested: float
+    orientation_sexuelle: Optional[str] = None
+    nb_enfants: Optional[int] = None
+    quotient_caf: Optional[float] = None
+
 
 class ClientUpdate(BaseModel):
     firstname: Optional[str] = None
@@ -40,6 +46,9 @@ class ClientUpdate(BaseModel):
     credit_score: Optional[int] = None
     monthly_rent: Optional[float] = None
     loan_amount_requested: Optional[float] = None
+    orientation_sexuelle: Optional[str] = None
+    nb_enfants: Optional[int] = None
+    quotient_caf: Optional[float] = None
 
     class Config:
         from_attributes = True  # Pydantic v2

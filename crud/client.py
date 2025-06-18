@@ -5,7 +5,7 @@ from schemas.client import ClientCreate
 
 
 def create_client(db: Session, client: ClientCreate):
-    db_client = ClientProfile(**client.model_dump())    
+    db_client = ClientProfile(**client.model_dump())
     db.add(db_client)
     db.commit()
     db.refresh(db_client)
@@ -20,7 +20,7 @@ def show_values(db: Session):
     else:
         for item in results:
             print(
-                f"{item.firstname} {item.lastname}, Age: {item.age}, Score: {item.credit_score}, Income: €{item.estimated_monthly_income}"
+                f"{item.firstname} {item.lastname}, Age: {item.age}, Score: {item.credit_score}, Income: €{item.estimated_monthly_income}, Children: {item.nb_enfants},"
             )
 
 

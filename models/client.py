@@ -25,3 +25,6 @@ class ClientProfile(Base):
     credit_score = Column(Integer, nullable=True)
     monthly_rent = Column(Float, nullable=True)
     loan_amount_requested = Column(Float, nullable=True)
+    orientation_sexuelle = Column(String, nullable=True)
+    nb_enfants = Column(Integer, nullable=True)
+    quotient_caf = Column(Float, nullable=True)

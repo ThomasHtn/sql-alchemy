@@ -72,22 +72,3 @@ Apply migration
 ```bash
 alembic upgrade head
 ```
-
-
-
-Qu’est-ce que j’ai fait ?
-- Mise en place d'un notebook pour comprendre le fonctionnement de la lib sqlalchemy
-- Création d'une BDD à partir d'un fichier CSV en python
-- Mise en place d'une API avec plusieurs route pour requeter ma bdd*
-- Ajout de plusieurs tests avec pytest afin de valider le bon fonctionnement de mes routes
-- Implémentation d'alembic pour gérer les migrations de la bdd
-- Mise en place de l'entrainement d'un model à partir d'un jeu de données
-
-
-Quelles difficultés j’ai rencontrées dans la journée ?
-- Petit souci sur le typage des retours dans mes apis entre sqlalchemy et pydantic
-  
-Qu’est-ce que j’ai appris ?
-- À utiliser sqlalchemy & alembic
-- La différence entre une colonne categorielle set manuellement 0,1,2,3 et avec dummies (colonne à plat sans hiérarchie)
-- La "cuisine" possible à réaliser sur la densité des neuronnes
