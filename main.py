@@ -1,10 +1,10 @@
-import pandas as pd
 from fastapi import FastAPI
+from sqlalchemy import func
 
 from database import SessionLocal, create_tables
 from models.client import ClientProfile
 from routes import client
-from utils.database_management import populateDatabaseFromCSV, update_database
+from utils.database_management import populate_from_csv, show_last_rows
 
 app = FastAPI()
 
@@ -12,31 +12,37 @@ app = FastAPI()
 # Register routes
 app.include_router(client.router)
 
+
+# ==================================================
+# 01 :
+# Train model without (nb_enfant, quotien_caf)
+# Use a clean data set
+# ==================================================
+
+
+# ==================================================
+# 02 :
+# Load dataset into database
+# ==================================================
+
 # Create tables if needed
 create_tables()
 
-# Populate database with first CSV if needed
-results = SessionLocal().query(ClientProfile).all()
-if len(results) == 0:
-    print("no data... populate database from csv")
+# Populate database if needed
+count = SessionLocal().query(func.count(ClientProfile.id)).scalar()
 
-    # Load csv
-    df = pd.read_csv("data/data.csv")
-
-    # Populate database from csv
-    populateDatabaseFromCSV(SessionLocal(), df)
+if count == 0:
+    populate_from_csv(SessionLocal(), "clean-data.csv")
+    show_last_rows(SessionLocal(), 10)
+    new_count = SessionLocal().query(func.count(ClientProfile.id)).scalar()
+    print(f"Row in table : {new_count}")
 else:
-    print("Already populate")
+    print(f"Current row in table : {count}")
 
 
-# Populate databese with new columns from new CSV if needed
-clients_with_children = (
-    SessionLocal()
-    .query(ClientProfile)
-    .filter(ClientProfile.nb_enfants.isnot(None))
-    .all()
-)
-if len(clients_with_children) == 0:
-    update_database()
-else:
-    print("alredy updated")
+# ==================================================
+# 03 :
+# Retrain existing model
+# Use data from database
+# Retrain model with (nb_enfant, quotien_caf)
+# ==================================================
