@@ -35,6 +35,7 @@ def add_client(client: ClientCreate, db: Session = Depends(get_db)):
 def get_client(client_id: int = Path(..., gt=0), db: Session = Depends(get_db)):
     print("GET: client route called")
 
+    # Get client by id in database
     client = db.query(ClientProfile).filter(ClientProfile.id == client_id).first()
 
     if not client:
@@ -52,10 +53,12 @@ def partial_update_client(
 ):
     print("PATCH: client route called")
 
+    # Get client by id in database
     client = db.query(ClientProfile).filter(ClientProfile.id == client_id).first()
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
 
+    # Update each value in updated_fields
     for field, value in updated_fields.model_dump(exclude_unset=True).items():
         setattr(client, field, value)
 
@@ -72,6 +75,7 @@ def partial_update_client(
 def delete_client(client_id: int, db: Session = Depends(get_db)):
     print("DELETE: client route called")
 
+    # Get client by id in database
     client = db.query(ClientProfile).filter(ClientProfile.id == client_id).first()
 
     if not client:

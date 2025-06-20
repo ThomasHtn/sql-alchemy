@@ -6,6 +6,7 @@ from alembic import context
 from database import Base
 from models.client import ClientProfile
 
+# Use to avoid import error
 _ = ClientProfile
 
 # this is the Alembic Config object, which provides
