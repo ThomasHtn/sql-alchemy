@@ -1,11 +1,15 @@
 from fastapi import FastAPI
 from sqlalchemy import func
 
-from database import SessionLocal, create_tables
 from models.client import ClientProfile
 from module import simple_model_train
 from routes import client
-from utils.database_management import populate_from_csv, show_last_rows
+from utils.database_management import (
+    SessionLocal,
+    create_tables,
+    populate_from_csv,
+    show_last_rows,
+)
 
 app = FastAPI()
 

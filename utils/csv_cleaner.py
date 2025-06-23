@@ -1,9 +1,11 @@
+import os
 from os.path import join as join
-from pathlib import Path
 
 import pandas as pd
 
 from utils.outliers import outliers_filter
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def clean_and_save_csv(
@@ -22,9 +24,9 @@ def clean_and_save_csv(
     columns_outliers_filter=["revenu_estime_mois", "loyer_mensuel"]
     """
 
-    # Get "data" root dir
-    root_dir = Path(__file__).resolve().parent.parent
-    data_path = root_dir / "data" / path
+    # Load data
+    data_path = os.path.join(BASE_DIR, "data", path)
+    df = pd.read_csv(data_path)
 
     # Read csv
     df = pd.read_csv(data_path)
@@ -57,6 +59,6 @@ def clean_and_save_csv(
             df = outliers_filter(df, col)
 
     # Save cleaned CSV
-    df.to_csv((root_dir / "data/clean-data.csv"), index=False)
+    df.to_csv(os.path.join(BASE_DIR, "data", "clean-data.csv"), index=False)
 
     print("CSV cleaned and saved in data directory")
