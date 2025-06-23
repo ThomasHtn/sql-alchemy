@@ -58,6 +58,11 @@ source .venv/bin/activate
 python3 run.py
 ```
 
+### Display API routes (Swagger)
+```bash
+[docs](http://127.0.0.1:8000/docs)
+```
+
 ### Execute API test
 ```bash
 pytest pytest test_api.py

@@ -19,6 +19,14 @@ def get_db():
 
 
 # =============================
+# GET: All clients
+# =============================
+@router.get("/", summary="Get all clients")
+def read_clients(db: Session = Depends(get_db)):
+    return db.query(ClientProfile).all()
+
+
+# =============================
 # POST: Add client
 # =============================
 @router.post("/", summary="Add a new client")

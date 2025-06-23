@@ -1,6 +1,5 @@
 /.venv
 /mlruns
-**/mlruns
 
 /.pytest_cache
 __pycache__/

@@ -1,8 +1,7 @@
 import os
 
 import mlflow
-import mlflow.artifacts
-import mlflow.tensorflow
+import mlflow.sklearn
 import pandas as pd
 import tensorflow as tf
 
@@ -18,6 +17,10 @@ from utils import (
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Set mlflow to write to the 'mlruns' folder in the root
+project_root = os.path.abspath(os.path.join(os.getcwd(), ".."))
+mlflow.set_tracking_uri(f"file://{project_root}/mlruns")
 
 
 def simple_model_train(csv_name, numerical_cols, categorical_cols, predict_col):
@@ -51,13 +54,13 @@ def simple_model_train(csv_name, numerical_cols, categorical_cols, predict_col):
     print("Model and preprocessor saved.")
 
     # Log dans MLflow
-    mlflow.set_experiment("SQL-ALCHEMY-MODEL-TRAIN")
-    with mlflow.start_run(run_name="Train Keras Model"):
+    mlflow.set_experiment("my_experiment")
+    with mlflow.start_run(run_name="Train - less columns"):
         mlflow.log_metric("mse", perf["MSE"])
         mlflow.log_metric("mae", perf["MAE"])
         mlflow.log_metric("r2", perf["R²"])
         # mlflow.artifacts
-        mlflow.tensorflow.log_model(model, artifact_path="model")
+        mlflow.sklearn.log_model(model, artifact_path="model")
 
 
 def train_model_from_existing(
@@ -105,9 +108,9 @@ def train_model_from_existing(
     new_model.save(os.path.join(BASE_DIR, "model_artifacts", "model2.keras"))
     print("Model and preprocessor saved.")
 
-    mlflow.set_experiment("SQL-ALCHEMY-MODEL-TRAIN")
-    with mlflow.start_run(run_name="Retrained Keras Model"):
+    mlflow.set_experiment("my_experiment")
+    with mlflow.start_run(run_name="Retrained - full columns"):
         mlflow.log_metric("mse", perf["MSE"])
         mlflow.log_metric("mae", perf["MAE"])
         mlflow.log_metric("r2", perf["R²"])
-        mlflow.tensorflow.log_model(new_model, artifact_path="model")
+        mlflow.sklearn.log_model(model2, artifact_path="model")
