@@ -9,22 +9,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
 
 
-def preprocessing(df):
-    numerical_cols = [
-        "age",
-        "revenu_estime_mois",
-        "historique_credits",
-        "risque_personnel",
-        "score_credit",
-        "loyer_mensuel",
-        "nb_enfantsquotient_caf",
-    ]
-    categorical_cols = [
-        "niveau_etude",
-        "region",
-        "situation_familiale",
-    ]
-
+def preprocessing(df, numerical_cols, categorical_cols, predict_col):
     num_pipeline = Pipeline(
         [("imputer", SimpleImputer(strategy="mean")), ("scaler", StandardScaler())]
     )
@@ -40,24 +25,9 @@ def preprocessing(df):
         [("num", num_pipeline, numerical_cols), ("cat", cat_pipeline, categorical_cols)]
     )
 
-    X = df.drop(
-        columns=[
-            "nom",
-            "prenom",
-            "taille",
-            "poids",
-            "sexe",
-            "sport_licence",
-            "smoker",
-            "nationalité française",
-            "orientation_sexuelle",
-            "date_creation_compte",
-            "montant_pret",
-        ]
-    )
-    y = df["montant_pret"]
+    y = predict_col
 
-    X_processed = preprocessor.fit_transform(X)
+    X_processed = preprocessor.fit_transform(df)
 
     return X_processed, y, preprocessor
 

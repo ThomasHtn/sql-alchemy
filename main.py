@@ -3,6 +3,7 @@ from sqlalchemy import func
 
 from database import SessionLocal, create_tables
 from models.client import ClientProfile
+from module import simple_model_train
 from routes import client
 from utils.database_management import populate_from_csv, show_last_rows
 
@@ -19,6 +20,7 @@ app.include_router(client.router)
 # Use a clean data set
 # ==================================================
 
+simple_model_train()
 
 # ==================================================
 # 02 :
