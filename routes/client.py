@@ -107,6 +107,9 @@ def delete_client(client_id: int, db: Session = Depends(get_db)):
     return {"message": f"Client with ID {client_id} deleted"}
 
 
+# =============================
+# POST: Predict loan value
+# =============================
 @router.post("/predict", summary="Predict value")
 def predict(client: ClientInput, db: Session = Depends(get_db)):
     input_dict = {
