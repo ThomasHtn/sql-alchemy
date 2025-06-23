@@ -65,7 +65,7 @@ python3 run.py
 
 ### Execute API test
 ```bash
-pytest pytest test_api.py
+pytest test_api.py
 ```
 
 ### Add database migration

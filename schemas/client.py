@@ -48,3 +48,24 @@ class ClientUpdate(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# =============================
+# INPUTS: client input schema
+# =============================
+class ClientInput(BaseModel):
+    age: int
+    height_cm: float
+    weight_kg: float
+    has_sports_license: bool
+    education_level: int
+    region: str
+    is_smoker: bool
+    estimated_monthly_income: float
+    marital_status: str
+    credit_history: str
+    personal_risk_score: float
+    credit_score: int
+    monthly_rent: float
+    nb_enfants: int
+    quotient_caf: float

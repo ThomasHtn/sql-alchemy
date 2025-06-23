@@ -1,1 +1,1 @@
-from .client import ClientCreate, ClientUpdate
+from .client import ClientCreate, ClientInput, ClientUpdate

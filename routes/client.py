@@ -1,12 +1,24 @@
+import os
+
+import joblib
+import pandas as pd
 from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
 
 from models import ClientProfile
-from schemas import ClientCreate, ClientUpdate
+from schemas import ClientCreate, ClientInput, ClientUpdate
 from utils.base import SessionLocal
 from utils.database_management import create_client
 
 router = APIRouter(prefix="/clients", tags=["clients"])
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Load model and preprocessor
+model = joblib.load(os.path.join(BASE_DIR, "model_artifacts", "model2.pkl"))
+preprocessor = joblib.load(
+    os.path.join(BASE_DIR, "model_artifacts", "preprocessor2.pkl")
+)
 
 
 # Dependency
@@ -93,3 +105,38 @@ def delete_client(client_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": f"Client with ID {client_id} deleted"}
+
+
+@router.post("/predict", summary="Predict value")
+def predict(client: ClientInput, db: Session = Depends(get_db)):
+    input_dict = {
+        "age": [client.age],
+        "taille": [client.height_cm],
+        "poids": [client.weight_kg],
+        "sport_licence": [client.has_sports_license],
+        "niveau_etude": [client.education_level],
+        "region": [client.region],
+        "smoker": [client.is_smoker],
+        "revenu_estime_mois": [client.estimated_monthly_income],
+        "situation_familiale": [client.marital_status],
+        "historique_credits": [client.credit_history],
+        "risque_personnel": [client.personal_risk_score],
+        "score_credit": [client.credit_score],
+        "loyer_mensuel": [client.monthly_rent],
+        "nb_enfants": [client.nb_enfants],
+        "quotient_caf": [client.quotient_caf],
+    }
+
+    try:
+        df = pd.DataFrame(input_dict)
+
+        # Prétraitement
+        X_processed = preprocessor.transform(df)
+
+        # Prédiction avec le modèle Keras
+        prediction = model.predict(X_processed)
+
+        return {"predicted_loan_amount": float(prediction[0][0])}
+
+    except Exception as e:
+        return {"error": "Prediction failed", "detail": str(e)}

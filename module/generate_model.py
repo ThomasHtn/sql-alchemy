@@ -1,5 +1,6 @@
 import os
 
+import joblib
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -75,11 +76,16 @@ def train_model_from_existing(
     data_path = os.path.join(BASE_DIR, "data", csv_name)
     df = pd.read_csv(data_path)
 
+    # Uncoment to use DATABASE Value
+    # bdd_file_path = os.path.join(BASE_DIR, "data", "generated-client.db")
+    # engine = create_engine(f"sqlite:///{bdd_file_path}")
+    # df = pd.read_sql("SELECT * FROM client_profiles", con=engine)
+
     # Set column to predict
     predict = df[predict_col]
 
     # Preprocessing data
-    X, y, _ = preprocessing(df, numerical_cols, categorical_cols, predict)
+    X, y, preprocessor = preprocessing(df, numerical_cols, categorical_cols, predict)
 
     # split data in train and test dataset
     X_train, X_test, y_train, y_test = split(X, y)
@@ -107,6 +113,10 @@ def train_model_from_existing(
 
     # Save model
     new_model.save(os.path.join(BASE_DIR, "model_artifacts", "model2.keras"))
+    joblib.dump(new_model, os.path.join(BASE_DIR, "model_artifacts", "model2.pkl"))
+    joblib.dump(
+        preprocessor, os.path.join(BASE_DIR, "model_artifacts", "preprocessor2.pkl")
+    )
     print("Model and preprocessor saved.")
 
     mlflow.set_experiment("my_experiment")
