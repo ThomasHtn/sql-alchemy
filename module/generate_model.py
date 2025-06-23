@@ -8,6 +8,7 @@ import tensorflow as tf
 from utils import (
     create_nn_model,
     draw_loss,
+    draw_loss_mlflow,
     evaluate_performance,
     model_predict,
     preprocessing,
@@ -59,7 +60,7 @@ def simple_model_train(csv_name, numerical_cols, categorical_cols, predict_col):
         mlflow.log_metric("mse", perf["MSE"])
         mlflow.log_metric("mae", perf["MAE"])
         mlflow.log_metric("r2", perf["R²"])
-        # mlflow.artifacts
+        draw_loss_mlflow(hist, mlflow)
         mlflow.sklearn.log_model(model, artifact_path="model")
 
 
@@ -113,4 +114,7 @@ def train_model_from_existing(
         mlflow.log_metric("mse", perf["MSE"])
         mlflow.log_metric("mae", perf["MAE"])
         mlflow.log_metric("r2", perf["R²"])
+
+        draw_loss_mlflow(hist, mlflow)
+
         mlflow.sklearn.log_model(model2, artifact_path="model")

@@ -4,6 +4,7 @@ from .outliers import outliers_filter
 from .trainer_helper import (
     create_nn_model,
     draw_loss,
+    draw_loss_mlflow,
     evaluate_performance,
     model_predict,
     preprocessing,
