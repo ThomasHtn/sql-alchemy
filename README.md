@@ -172,7 +172,7 @@ Train an existing model with new value "nb_enfants" & "quotient_caf"
 
 **Swagger** : [http://localhost:9500/docs](http://localhost:9500/docs)
 
-
+![image info](assets/swagger.png)
 ![image info](assets/get-clients.png)
 
 ### Mlflow
