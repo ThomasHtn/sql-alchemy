@@ -3,8 +3,8 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
-from database import Base
-from models.client import ClientProfile
+from models import ClientProfile
+from utils.base import Base
 
 # Use to avoid import error
 _ = ClientProfile

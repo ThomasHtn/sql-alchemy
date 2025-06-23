@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, Float, Integer, String
 
-from database import Base
+from utils.base import Base
+
 
 # =============================
 # TABLE: client_profiles

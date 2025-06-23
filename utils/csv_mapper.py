@@ -34,7 +34,8 @@ EDUCATION_MAP = {
     "doctorat": 8,
 }
 
-SITUATION_FAMILIALE_MAP = {
+# Family status mapper
+FAMILY_STATUS_MAP = {
     "célibataire": 0,
     "séparé": 1,
     "divorcé": 2,

@@ -5,9 +5,20 @@ import pandas as pd
 
 from utils.outliers import outliers_filter
 
+# GET base DIR
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# =====================================
+# Function to clean CSV and save result
+#
+# Inputs exemple :
+#     columns_to_remove=["nom", "prenom", "sexe", "orientation_sexuelle"],
+#     columns_to_categorised={"niveau_etude": EDUCATION_MAP},
+#     columns_fillna_mean=["quotient_caf", "revenu_estime_mois"],
+#     columns_fillna_mode=["situation_familiale"],
+#     columns_outliers_filter=["revenu_estime_mois", "loyer_mensuel"]
+# =====================================
 def clean_and_save_csv(
     path,
     columns_to_remove: list[str],
@@ -16,14 +27,6 @@ def clean_and_save_csv(
     columns_fillna_mode: list[str],
     columns_outliers_filter: list[str],
 ):
-    """
-    columns_to_remove=["nom", "prenom", "sexe", "orientation_sexuelle"],
-    columns_to_categorised={"niveau_etude": EDUCATION_MAP},
-    columns_fillna_mean=["quotient_caf", "revenu_estime_mois"],
-    columns_fillna_mode=["situation_familiale"],
-    columns_outliers_filter=["revenu_estime_mois", "loyer_mensuel"]
-    """
-
     # Load data
     data_path = os.path.join(BASE_DIR, "data", path)
     df = pd.read_csv(data_path)

@@ -1,9 +1,12 @@
 import os
 
+import mlflow
+import mlflow.artifacts
+import mlflow.tensorflow
 import pandas as pd
 import tensorflow as tf
 
-from utils.trainer_helper import (
+from utils import (
     create_nn_model,
     draw_loss,
     evaluate_performance,
@@ -22,7 +25,7 @@ def simple_model_train(csv_name, numerical_cols, categorical_cols, predict_col):
     data_path = os.path.join(BASE_DIR, "data", csv_name)
     df = pd.read_csv(data_path)
 
-    # Set column to predict 
+    # Set column to predict
     predict = df[predict_col]
 
     # Preprocessing data
@@ -46,6 +49,15 @@ def simple_model_train(csv_name, numerical_cols, categorical_cols, predict_col):
     # Save model
     model.save(os.path.join(BASE_DIR, "model_artifacts", "model1.keras"))
     print("Model and preprocessor saved.")
+
+    # Log dans MLflow
+    mlflow.set_experiment("SQL-ALCHEMY-MODEL-TRAIN")
+    with mlflow.start_run(run_name="Train Keras Model"):
+        mlflow.log_metric("mse", perf["MSE"])
+        mlflow.log_metric("mae", perf["MAE"])
+        mlflow.log_metric("r2", perf["R²"])
+        # mlflow.artifacts
+        mlflow.tensorflow.log_model(model, artifact_path="model")
 
 
 def train_model_from_existing(
@@ -92,3 +104,10 @@ def train_model_from_existing(
     # Save model
     new_model.save(os.path.join(BASE_DIR, "model_artifacts", "model2.keras"))
     print("Model and preprocessor saved.")
+
+    mlflow.set_experiment("SQL-ALCHEMY-MODEL-TRAIN")
+    with mlflow.start_run(run_name="Retrained Keras Model"):
+        mlflow.log_metric("mse", perf["MSE"])
+        mlflow.log_metric("mae", perf["MAE"])
+        mlflow.log_metric("r2", perf["R²"])
+        mlflow.tensorflow.log_model(new_model, artifact_path="model")

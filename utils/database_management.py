@@ -1,27 +1,13 @@
-import os
 from os.path import join as join
 from pathlib import Path
 
 import pandas as pd
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from sqlalchemy.orm import Session
 
-from models.client import ClientProfile
-from schemas.client import ClientCreate
-from utils.csv_mapper import BOOL_MAP, CSV_TO_DB_MAP, EDUCATION_MAP
-
-try:
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-except NameError:
-    BASE_DIR = os.path.abspath("..")
-
-# ===================================
-# Database config
-# ===================================
-bdd_file_path = os.path.join(BASE_DIR, "data", "generated-client.db")
-engine = create_engine("sqlite:///" + bdd_file_path)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-Base = declarative_base()
+from models import ClientProfile
+from schemas import ClientCreate
+from utils import BOOL_MAP, CSV_TO_DB_MAP, EDUCATION_MAP
+from utils.base import Base, engine
 
 
 # ===================================
